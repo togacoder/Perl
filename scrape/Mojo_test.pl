@@ -17,9 +17,28 @@ __DATA__
 	<head>
 		<title>Index</title>
 	</head>
+	<style>
+		table {
+			border-collapse: collapse;
+		}
+		td {
+			border: solid 1px;
+			padding: 0.5em;
+		}
+	</style>
 	<body>
-		% foreach (keys %$hash) {
-			<dt><%= $_ %></dt>
+		<h1>Summoner Names: matting count</h1>
+		<table>
+			<tr>
+				<td> SN </td>
+				<td> Matting </td>
+			</tr>
+		% foreach (sort {$hash->{$b} <=> $hash->{$a}} keys %$hash) {
+			<tr>
+				<td> <%= $_ %> </td>
+				<td> <%= $hash->{$_} %> </td>
+			</tr>
 		% }
+		</table>
 	</body>
 </html>
