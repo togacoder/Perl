@@ -35,7 +35,9 @@ __DATA__
 			</tr>
 		% foreach (sort {$hash->{$b} <=> $hash->{$a}} keys %$hash) {
 			<tr>
-				<td> <%= $_ %> </td>
+				<td> <a href = "http://jp.op.gg/summoner/userName=<%= $_ %> >" target = "_blank">
+						<%= $_ %> 
+					</a> </td>
 				<td> <%= $hash->{$_} %> </td>
 			</tr>
 		% }
