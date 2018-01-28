@@ -9,11 +9,11 @@ get '/' => sub {
 	$self->render('index');
 };
 
-get '/user' => sub {
+get '/result' => sub {
 	my $self = shift;
 	my $name = $self->req->param('name');
 	$self->stash->{name} = $name;
-	$self->render('user');
+	$self->render('result');
 };
 app->start;
 
@@ -23,16 +23,16 @@ __DATA__
 	<head>
 		<title> Index </title>
 	</head>
-	<body>
-		<from action="/user">
+	<body>	
+		<form action="/result" method="get">
 			<b>Summoner Name:</b>
-			<input type="text" name="name" />
-			<input type="submit" value="submit" />
-		</from>
+			<input type="text" name="name"/>
+			<input type="submit" value="submit"/>
+		</form>
 	</body>
 </html>
 
-@@ user.html.ep
+@@ result.html.ep
 % my ($hash) = opgg::summonerNameList($name);
 <html>
 	<head>
