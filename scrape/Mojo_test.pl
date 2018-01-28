@@ -8,14 +8,35 @@ get '/' => sub {
 	my $self = shift;
 	$self->render('index');
 };
+
+get '/result' => sub {
+	my $self = shift;
+	my $name = $self->req->param('name');
+	$self->stash->{name} = $name;
+	$self->render('result');
+};
 app->start;
 
 __DATA__
 @@ index.html.ep
-% my ($hash) = opgg::summonerNameList();
 <html>
 	<head>
-		<title>Index</title>
+		<title> Index </title>
+	</head>
+	<body>	
+		<form action="/result" method="get">
+			<b>Summoner Name:</b>
+			<input type="text" name="name"/>
+			<input type="submit" value="submit"/>
+		</form>
+	</body>
+</html>
+
+@@ result.html.ep
+% my ($hash) = opgg::summonerNameList($name);
+<html>
+	<head>
+		<title> User </title>
 	</head>
 	<style>
 		table {
@@ -27,7 +48,6 @@ __DATA__
 		}
 	</style>
 	<body>
-		<h1>Summoner Names: matting count</h1>
 		<table>
 			<tr>
 				<td> SN </td>
