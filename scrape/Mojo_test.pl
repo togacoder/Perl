@@ -1,8 +1,13 @@
+#!/usr/bin/env perl
+
+
+# morbo path ~/.plenv/versions/5.26.1/bin/morbo
 use strict;
 use warnings;
 use Mojolicious::Lite;
-use lib './';
-require 'scrape_opgg.pm';
+#use lib './';
+use lib qw{ ./ };
+require 'scrape_opgg2.pm';
 
 get '/' => sub {
 	my $self = shift;
@@ -33,7 +38,8 @@ __DATA__
 </html>
 
 @@ result.html.ep
-% my ($hash) = opgg::summonerNameList($name);
+% my ($summoner) = opgg::summonerNameList($name);
+% my ($champion) = opgg::championNameList($name);
 <html>
 	<head>
 		<title> User </title>
@@ -53,14 +59,24 @@ __DATA__
 				<td> SN </td>
 				<td> Matting </td>
 			</tr>
-		% foreach (sort {$hash->{$b} <=> $hash->{$a}} keys %$hash) {
+			% foreach (sort {$summoner->{$b} <=> $summoner->{$a}} keys %$summoner) {
+				<tr>
+					<td> <a href = "http://jp.op.gg/summoner/userName=<%= $_ %> " target = "_blank">
+							<%= $_ %> 
+						</a> </td>
+					<td> <%= $summoner->{$_} %> </td>
+				</tr>
+			% }
 			<tr>
-				<td> <a href = "http://jp.op.gg/summoner/userName=<%= $_ %> >" target = "_blank">
-						<%= $_ %> 
-					</a> </td>
-				<td> <%= $hash->{$_} %> </td>
+				<td> CN </td>
+				<td> Matting </td>
 			</tr>
-		% }
+			% foreach (sort {$champion->{$b} <=> $champion->{$a}} keys %$champion) {
+				<tr>
+					<td> <%= substr($_, 0, length($_)/2) %> </td>
+					<td> <%= $champion->{$_} %> </td>
+				</tr>
+			% }
 		</table>
 	</body>
 </html>
